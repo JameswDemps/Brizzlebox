@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 
 import {
   TwitterTimelineEmbed,
@@ -44,7 +45,7 @@ export default class Home extends React.Component {
         "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
     });
 
-    this.myMove()
+    this.myMove();
   }
 
   renderContent() {
@@ -73,69 +74,63 @@ export default class Home extends React.Component {
   }
 
   myMove = () => {
-    window.requestAnimationFrame(function() {
-      console.log("myMove Called");
+    console.log("myMove Called");
 
-      var elem = document.getElementsByClassName(
-        "frame_container_animationv2"
-      )[0];
+    var elem = document.getElementsByClassName(
+      "frame_container_animationv2"
+    )[0];
 
-      elem.style.width = document.getElementsByClassName("frame_container_item").length + "00%"
+    elem.style.width =
+      document.getElementsByClassName("frame_container_item").length + "00%";
 
-      var noOfItems = document.getElementsByClassName("frame_container_item")
-        .length;
-      var currentItem = 1;
-      var moveLeft = false;
+    var noOfItems = document.getElementsByClassName("frame_container_item")
+      .length;
+    var currentItem = 1;
+    var moveLeft = false;
 
-      var step = 0;
-      var pos = 0;
-      var posStep = 1;
-      var frameRate = 10;
-      var delay = 2000;
+    var step = 0;
+    var pos = 0;
+    var posStep = 1;
+    var frameRate = 10;
+    var delay = 2000;
 
-      var percentProgress = [];
+    var percentProgress = [];
 
-      var noOfSteps = 100 / posStep;
-      erf();
+    var noOfSteps = 100 / posStep;
+    erf();
 
-      var id = setInterval(right, frameRate);
+    var id = setInterval(right, frameRate);
 
-      function erf() {
-        var spacing = 4.5 / noOfSteps;
-        var firstHalf = [];
-        var secondHalf = [];
-        var progressBar = [];
-        var a_1 = 0.278393;
-        var a_2 = 0.230389;
-        var a_3 = 0.000972;
-        var a_4 = 0.078108;
-        for (var i = 0; i < noOfSteps / 2; i++) {
-          var x = i * spacing;
-          var newPercent =
-            (1 -
-              1 /
-                (1 + a_1 * x + a_2 * x ** 2 + a_3 * x ** 3 + a_4 * x ** 4) **
-                  4) *
-            50;
-          firstHalf.push(50 - newPercent);
-          secondHalf.push(newPercent + 50);
-        }
-        progressBar = firstHalf.reverse().concat(secondHalf);
-        for (var i = 0; i < progressBar.length; i++) {
-          percentProgress.push(progressBar[i + 1] - progressBar[i]);
-        }
+    function erf() {
+      var spacing = 4.5 / noOfSteps;
+      var firstHalf = [];
+      var secondHalf = [];
+      var progressBar = [];
+      var a_1 = 0.278393;
+      var a_2 = 0.230389;
+      var a_3 = 0.000972;
+      var a_4 = 0.078108;
+      for (var i = 0; i < noOfSteps / 2; i++) {
+        var x = i * spacing;
+        var newPercent =
+          (1 -
+            1 /
+              (1 + a_1 * x + a_2 * x ** 2 + a_3 * x ** 3 + a_4 * x ** 4) ** 4) *
+          50;
+        firstHalf.push(50 - newPercent);
+        secondHalf.push(newPercent + 50);
       }
-
-      function sleep(miliseconds) {
-        var currentTime = new Date().getTime();
-        while (currentTime + miliseconds >= new Date().getTime()) {}
+      progressBar = firstHalf.reverse().concat(secondHalf);
+      for (var i = 0; i < progressBar.length; i++) {
+        percentProgress.push(progressBar[i + 1] - progressBar[i]);
       }
+    }
 
-      function right() {
-        if (step == noOfSteps - 2) {
-          clearInterval(id);
-          step = 0;
-          sleep(delay);
+    function right() {
+      if (step == noOfSteps - 2) {
+        clearInterval(id);
+        step = 0;
+        setTimeout(function(){ 
           if (currentItem == noOfItems - 1) {
             moveLeft = true;
           }
@@ -146,17 +141,18 @@ export default class Home extends React.Component {
             currentItem++;
             id = setInterval(right, frameRate);
           }
-        } else {
-          step++;
-          pos -= percentProgress[step];
-          elem.style.left = pos + "%";
-        }
+        }, delay);
+      } else {
+        step++;
+        pos -= percentProgress[step];
+        elem.style.left = pos + "%";
       }
-      function left() {
-        if (step == noOfSteps - 2) {
-          clearInterval(id);
-          step = 0;
-          sleep(delay);
+    }
+    function left() {
+      if (step == noOfSteps - 2) {
+        clearInterval(id);
+        step = 0;
+        setTimeout(function(){ 
           if (currentItem == 0) {
             moveLeft = false;
           }
@@ -167,13 +163,13 @@ export default class Home extends React.Component {
             currentItem++;
             id = setInterval(right, frameRate);
           }
-        } else {
-          step++;
-          pos += percentProgress[noOfSteps - 2 - step];
-          elem.style.left = pos + "%";
-        }
+         }, delay);
+      } else {
+        step++;
+        pos += percentProgress[noOfSteps - 2 - step];
+        elem.style.left = pos + "%";
       }
-    });
+    }
   };
 
   frame_container_animationv2 = {
@@ -187,7 +183,6 @@ export default class Home extends React.Component {
     justifyContent: "center",
     position: "relative"
   };
-
 
   render() {
     const { dimensions, link } = this.state;
@@ -286,6 +281,8 @@ export default class Home extends React.Component {
                   ></iframe>
                 </div>
               </div>
+              <Button className="frame_container_scroll_left"></Button>
+              <Button className="frame_container_scroll_right"></Button>
             </div>
           </div>
         </div>
