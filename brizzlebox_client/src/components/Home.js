@@ -71,122 +71,115 @@ export default class Home extends React.Component {
   }
 
   myMove = () => {
-    console.log("myMove Called");
-    var elem = document.getElementsByClassName(
-      "frame_container_animationv2"
-    )[0];
+    window.requestAnimationFrame(function() {
+      console.log("myMove Called");
 
-    
-    var noOfItems = document.getElementsByClassName(
-      "frame_container_item"
-    ).length;
-    var currentItem = 1;
-    var moveLeft = false;
+      var elem = document.getElementsByClassName(
+        "frame_container_animationv2"
+      )[0];
 
-    var step = 0;
-    var pos = 0;
-    var posStep = 1;
-    var frameRate = 10;
-    var delay = 2000;
+      elem.style.width = document.getElementsByClassName("frame_container_item").length + "00%"
 
-    var percentProgress = []
+      var noOfItems = document.getElementsByClassName("frame_container_item")
+        .length;
+      var currentItem = 1;
+      var moveLeft = false;
 
-    var noOfSteps = 100/posStep;
-    // console.log("noOfSteps " + noOfSteps)
-    erf()
 
-    console.log(percentProgress)
+      var step = 0;
+      var pos = 0;
+      var posStep = 1;
+      var frameRate = 10;
+      var delay = 2000;
 
-    var id = setInterval(right, frameRate);
-    // console.log(elem.style.left);
+      var percentProgress = [];
 
-    function erf() {
-      var spacing = 4.5/noOfSteps
-      var firstHalf = []
-      var secondHalf = []
-      var progressBar = []
-      // console.log("erf called")
-      var a_1 = 0.278393;
-      var a_2 = 0.230389;
-      var a_3 = 0.000972;
-      var a_4 = 0.078108;
-      for(var i = 0; i < noOfSteps/2; i++){
-        var x = i * spacing
-        // console.log("X: " + x)
-        var newPercent = ((1 - (1/(1 + a_1*x + a_2*x**2 + a_3*x**3 + a_4*x**4)**4)) * 50);
-        firstHalf.push(50 - newPercent)
-        secondHalf.push(newPercent + 50)
-        // console.log("New percent: " + newPercent)
-        // percentProgress.push(newPercent)
+      var noOfSteps = 100 / posStep;
+      erf();
+
+      console.log(percentProgress);
+
+      var id = setInterval(right, frameRate);
+
+      function erf() {
+        var spacing = 4.5 / noOfSteps;
+        var firstHalf = [];
+        var secondHalf = [];
+        var progressBar = [];
+        var a_1 = 0.278393;
+        var a_2 = 0.230389;
+        var a_3 = 0.000972;
+        var a_4 = 0.078108;
+        for (var i = 0; i < noOfSteps / 2; i++) {
+          var x = i * spacing;
+          var newPercent =
+            (1 -
+              1 /
+                (1 + a_1 * x + a_2 * x ** 2 + a_3 * x ** 3 + a_4 * x ** 4) **
+                  4) *
+            50;
+          firstHalf.push(50 - newPercent);
+          secondHalf.push(newPercent + 50);
+        }
+        progressBar = firstHalf.reverse().concat(secondHalf);
+        for (var i = 0; i < progressBar.length; i++) {
+          percentProgress.push(progressBar[i + 1] - progressBar[i]);
+        }
       }
-      progressBar = firstHalf.reverse().concat(secondHalf)
-      for(var i = 0; i < progressBar.length; i++){
-        percentProgress.push(progressBar[i+1] - progressBar[i])
-      }
-    }
 
-    function sleep(miliseconds) {
-      var currentTime = new Date().getTime();
-      while (currentTime + miliseconds >= new Date().getTime()) {}
-    }
+      function sleep(miliseconds) {
+        var currentTime = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) {}
+      }
 
-    function right() {
-      // console.log("right called")
-      if (step == noOfSteps -2) {
-        // console.log("current item: " + currentItem)
-        // console.log("moveLeft:" + moveLeft)
-        // console.log("pos:" + pos)
-        clearInterval(id);
-        step = 0
-        sleep(delay);
-        if (currentItem == noOfItems - 1) {
-          moveLeft = true;
+      function right() {
+        if (step == noOfSteps - 2) {
+          clearInterval(id);
+          step = 0;
+          sleep(delay);
+          if (currentItem == noOfItems - 1) {
+            moveLeft = true;
+          }
+          if (moveLeft) {
+            currentItem--;
+            id = setInterval(left, frameRate);
+          } else {
+            currentItem++;
+            id = setInterval(right, frameRate);
+          }
+        } else {
+          step++;
+          pos -= percentProgress[step];
+          elem.style.left = pos + "%";
         }
-        if (moveLeft){
-          currentItem--;
-          id = setInterval(left, frameRate);
-        }
-        else {
-          currentItem++;
-          id = setInterval(right, frameRate);
-        }
-      } else {
-        step++
-        pos -= percentProgress[step];
-        elem.style.left = pos + "%";
       }
-    }
-    function left() {
-      // console.log("left called")
-      if (step == noOfSteps -2) {
-        // console.log("current item: " + currentItem)
-        // console.log("moveLeft:" + moveLeft)
-        // console.log("pos:" + pos)
-        clearInterval(id);
-        step = 0
-        sleep(delay);
-        if (currentItem == 0) {
-          moveLeft = false;
+      function left() {
+        if (step == noOfSteps - 2) {
+          clearInterval(id);
+          step = 0;
+          sleep(delay);
+          if (currentItem == 0) {
+            moveLeft = false;
+          }
+          if (moveLeft) {
+            currentItem--;
+            id = setInterval(left, frameRate);
+          } else {
+            currentItem++;
+            id = setInterval(right, frameRate);
+          }
+        } else {
+          step++;
+          pos += percentProgress[noOfSteps - 2 - step];
+          elem.style.left = pos + "%";
         }
-        if (moveLeft){
-          currentItem--
-          id = setInterval(left, frameRate);
-        }
-        else {
-          currentItem++
-          id = setInterval(right, frameRate);
-        }
-      } else {
-        step++
-        pos += percentProgress[noOfSteps -2 - step];
-        elem.style.left = pos + "%";
       }
-    }
+    });
   };
 
   frame_container_animationv2 = {
     height: "100%",
-    width: "200%",
+    width: "100%",
     overflow: "hidden",
 
     flex: 1,
@@ -271,6 +264,16 @@ export default class Home extends React.Component {
                 className="frame_container_animationv2"
               >
                 <div className="frame_container_item">
+                  <TwitterTimelineEmbed
+                    sourceType="profile"
+                    screenName="brizzlebox"
+                    options={{
+                      height: this.state.dimensions.height,
+                      width: this.state.dimensions.trueWidth
+                    }}
+                  />
+                </div>
+                <div className="frame_container_item">
                   <iframe
                     className="facebook_frame"
                     src={this.state.link}
@@ -286,22 +289,11 @@ export default class Home extends React.Component {
                     allow="encrypted-media"
                   ></iframe>
                 </div>
-
-                <div className="frame_container_item">
-                  <TwitterTimelineEmbed
-                    sourceType="profile"
-                    screenName="brizzlebox"
-                    options={{
-                      height: this.state.dimensions.height,
-                      width: this.state.dimensions.trueWidth
-                    }}
-                  />
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <button onClick={this.myMove}>Click Me</button>
+        <button onClick={() => this.myMove()}>Click Me</button>
         {/* <div className="container">
             <div className="row">
               <div className="col-sm-6 cold-md-6 c "> Hey</div>
