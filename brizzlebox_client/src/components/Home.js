@@ -43,6 +43,8 @@ export default class Home extends React.Component {
         this.container.offsetHeight +
         "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
     });
+
+    this.myMove()
   }
 
   renderContent() {
@@ -85,7 +87,6 @@ export default class Home extends React.Component {
       var currentItem = 1;
       var moveLeft = false;
 
-
       var step = 0;
       var pos = 0;
       var posStep = 1;
@@ -96,8 +97,6 @@ export default class Home extends React.Component {
 
       var noOfSteps = 100 / posStep;
       erf();
-
-      console.log(percentProgress);
 
       var id = setInterval(right, frameRate);
 
@@ -189,9 +188,6 @@ export default class Home extends React.Component {
     position: "relative"
   };
 
-  // componentDidMount() {
-  //   this.myMove();
-  // }
 
   render() {
     const { dimensions, link } = this.state;
@@ -293,7 +289,7 @@ export default class Home extends React.Component {
             </div>
           </div>
         </div>
-        <button onClick={() => this.myMove()}>Click Me</button>
+        {/* <button onClick={() => this.myMove()}>Click Me</button> */}
         {/* <div className="container">
             <div className="row">
               <div className="col-sm-6 cold-md-6 c "> Hey</div>
