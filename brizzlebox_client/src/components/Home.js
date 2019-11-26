@@ -280,9 +280,25 @@ export default class Home extends React.Component {
                     allow="encrypted-media"
                   ></iframe>
                 </div>
+                <div className="frame_container_item">
+                  <iframe
+                    className="facebook_frame"
+                    src={this.state.link}
+                    // width="420px !important"
+                    width={this.state.dimensions.width}
+                    // height="500"
+                    // height = "100%"
+
+                    // style="border:none;overflow:hidden"
+                    scrolling="no"
+                    frameborder="0"
+                    allowTransparency="true"
+                    allow="encrypted-media"
+                  ></iframe>
+                </div>
               </div>
-              <Button className="frame_container_scroll_left"></Button>
-              <Button className="frame_container_scroll_right"></Button>
+              <Button className="frame_container_scroll_left">&lt;</Button>
+              <Button className="frame_container_scroll_right">&gt;</Button>
             </div>
           </div>
         </div>
