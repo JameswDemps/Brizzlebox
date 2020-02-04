@@ -115,10 +115,10 @@ export default class Navigationbar extends React.Component {
                   <Dropdown.Item>Hello there!</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown> */}
-              <Nav.Link href="#link">MUSIC</Nav.Link>
+              {/*<Nav.Link href="#link">MUSIC</Nav.Link>*/}
               <Navbar.Brand href="#home">Brizzlebox-Logo</Navbar.Brand>
-              <Nav.Link href="#link">VIDEOS</Nav.Link>
-              <Nav.Link href="#link">EVENTS</Nav.Link>
+              {/*<Nav.Link href="https://www.youtube.com/channel/UC7-2MKKVFNDp9XN_3Stp7IA">VIDEOS</Nav.Link>*/}
+              <Nav.Link href="https://en-gb.facebook.com/pg/brizzlebox/events/">EVENTS</Nav.Link>
               <Nav.Link href="#link">CONTACT</Nav.Link>
             </Nav>
             {/* <Form inline>
